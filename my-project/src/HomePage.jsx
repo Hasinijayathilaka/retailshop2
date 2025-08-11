@@ -41,9 +41,9 @@ const HomePage = () => (
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
         {[
           { label: 'Women', img: '/4.jpg', link: '/category/women' },
-          { label: 'Men', img: '/5.jpg' },
-          { label: 'Accessories', img: '/6.jpg' },
-          { label: 'Sale', img: '/7.jpg' }
+          { label: 'Men', img: '/5.jpg', link: '/category/Men' },
+          { label: 'Accessories', img: '/6.jpg' , link: '/category/Accessories'},
+          { label: 'Sale', img: '/7.jpg', link: '/category/Sale' },
         ].map(({ label, img, link }) => (
           link ? (
             <Link to={link} key={label} className="no-underline text-inherit">
