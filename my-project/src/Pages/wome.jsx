@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { womenProducts } from '../data/product';
+
 
 const Women = () => {
   const navigate = useNavigate();
