@@ -12,6 +12,7 @@ import Sale from './Pages/Sale';
 import Cart from './Pages/Cart';
 import Checkout from './Pages/Checkout';
 import AdminDashboard from './Pages/AdminDashboard';
+import ProductView from './Pages/productView';
 
 function App() {
   return (
@@ -26,7 +27,7 @@ function App() {
          <Route path="/category/Accessories" element={<Accessories />}/>
          <Route path="/category/Sale" element={<Sale />}/>
          <Route path="/cart" element={<Cart/>}/>
-         
+                 <Route path="/product/:id" element={<ProductView/>} />
       </Routes>
       <Checkout/>
       <AdminDashboard/>

@@ -1,99 +1,116 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 const Cart = () => {
   const [cartItems, setCartItems] = useState([]);
   const navigate = useNavigate();
 
-  // Load cart items from localStorage when page loads
   useEffect(() => {
-    const storedCart = JSON.parse(localStorage.getItem('cart')) || [];
-    setCartItems(storedCart);
+    const cart = JSON.parse(localStorage.getItem("cart")) || [];
+    setCartItems(cart);
   }, []);
 
-  // Remove item from cart
-  const removeFromCart = (index) => {
-    const updatedCart = [...cartItems];
-    updatedCart.splice(index, 1);
-    setCartItems(updatedCart);
-    localStorage.setItem('cart', JSON.stringify(updatedCart));
+  const updateQuantity = (id, qty) => {
+    const updated = cartItems.map((item) =>
+      item.id === id ? { ...item, quantity: qty } : item
+    );
+    setCartItems(updated);
+    localStorage.setItem("cart", JSON.stringify(updated));
   };
 
-  // Change quantity
-  const updateQuantity = (index, newQuantity) => {
-    const updatedCart = [...cartItems];
-    if (newQuantity < 1) return;
-    updatedCart[index].quantity = newQuantity;
-    setCartItems(updatedCart);
-    localStorage.setItem('cart', JSON.stringify(updatedCart));
+  const removeItem = (id) => {
+    const updated = cartItems.filter((item) => item.id !== id);
+    setCartItems(updated);
+    localStorage.setItem("cart", JSON.stringify(updated));
   };
 
-  // Calculate total
-  const calculateTotal = () => {
-    return cartItems.reduce((total, item) => {
-      const priceNumber = parseFloat(item.price.replace(/[^0-9.-]+/g, ""));
-      const quantity = item.quantity || 1;
-      return total + (priceNumber * quantity);
-    }, 0).toFixed(2);
+  const grandTotal = cartItems.reduce(
+    (sum, item) => sum + item.price * (item.quantity || 1),
+    0
+  );
+
+  const handleCheckout = () => {
+    alert("Proceeding to checkout...");
+    navigate("/checkout"); // You can create a checkout page later
   };
 
   return (
-    <div className="p-6 font-sans bg-gray-50 min-h-screen">
-      <h1 className="text-3xl font-bold mb-6 text-[#264653]">Your Shopping Cart</h1>
+    <div className="font-sans bg-white min-h-screen text-gray-800">
+      <header className="bg-white px-6 md:px-16 py-4 shadow-md flex justify-between items-center">
+        <div className="text-2xl font-bold text-[#e76f51]">🌟 RetailVibe</div>
+        <nav className="flex gap-4 items-center text-sm font-medium">
+          <Link to="/" className="hover:text-[#e76f51]">Home</Link>
+          <Link to="/shop" className="hover:text-[#e76f51]">Shop</Link>
+          <Link to="/deals" className="hover:text-[#e76f51]">Deals</Link>
+          <Link to="/contact" className="hover:text-[#e76f51]">Contact</Link>
+        </nav>
+      </header>
 
-      {cartItems.length === 0 ? (
-        <p>Your cart is empty.</p>
-      ) : (
-        <div className="bg-white p-6 rounded-lg shadow">
-          {cartItems.map((item, index) => (
-            <div key={index} className="flex items-center justify-between border-b pb-4 mb-4">
-              <img src={item.image} alt={item.name} className="w-20 h-20 object-cover rounded" />
-              <div className="flex-1 ml-4">
-                <h2 className="text-lg font-semibold">{item.name}</h2>
-                <p className="text-[#e76f51]">{item.price}</p>
-              </div>
-              <div className="flex items-center">
-                <button
-                  className="px-2 py-1 bg-gray-200 rounded"
-                  onClick={() => updateQuantity(index, (item.quantity || 1) - 1)}
-                >-</button>
-                <span className="px-4">{item.quantity || 1}</span>
-                <button
-                  className="px-2 py-1 bg-gray-200 rounded"
-                  onClick={() => updateQuantity(index, (item.quantity || 1) + 1)}
-                >+</button>
-              </div>
+      <div className="px-6 md:px-16 py-10">
+        <h1 className="text-3xl font-bold mb-6">Shopping Cart</h1>
+        {cartItems.length === 0 ? (
+          <p>Your cart is empty. <Link to="/shop" className="text-[#e76f51]">Go shopping</Link>.</p>
+        ) : (
+          <>
+            <table className="w-full text-left border-collapse">
+              <thead>
+                <tr className="border-b">
+                  <th className="p-3">Product</th>
+                  <th className="p-3">Price</th>
+                  <th className="p-3">Quantity</th>
+                  <th className="p-3">Total</th>
+                  <th className="p-3"></th>
+                </tr>
+              </thead>
+              <tbody>
+                {cartItems.map((item) => (
+                  <tr key={item.id} className="border-b">
+                    <td className="p-3 flex items-center gap-4">
+                      <img
+                        src={item.image}
+                        alt={item.name}
+                        className="w-16 h-16 object-cover rounded"
+                      />
+                      {item.name}
+                    </td>
+                    <td className="p-3">Rs.{item.price}</td>
+                    <td className="p-3">
+                      <input
+                        type="number"
+                        value={item.quantity || 1}
+                        min="1"
+                        className="border p-1 w-16"
+                        onChange={(e) =>
+                          updateQuantity(item.id, parseInt(e.target.value))
+                        }
+                      />
+                    </td>
+                    <td className="p-3">Rs.{(item.price * (item.quantity || 1)).toFixed(2)}</td>
+                    <td className="p-3">
+                      <button
+                        onClick={() => removeItem(item.id)}
+                        className="text-red-500 hover:underline"
+                      >
+                        Remove
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+
+            <div className="flex justify-between items-center mt-6">
+              <h2 className="text-xl font-bold">Grand Total: Rs.{grandTotal.toFixed(2)}</h2>
               <button
-                className="ml-4 text-red-500 hover:text-red-700"
-                onClick={() => removeFromCart(index)}
+                onClick={handleCheckout}
+                className="bg-[#e76f51] text-white px-6 py-2 rounded hover:bg-[#d45d43]"
               >
-                Remove
+                Checkout
               </button>
             </div>
-          ))}
-
-          {/* Summary */}
-          <div className="text-right mt-6">
-            <p className="text-xl font-semibold">
-              Total: <span className="text-[#e76f51]">${calculateTotal()}</span>
-            </p>
-            <div className="mt-4 flex justify-end gap-4">
-              <button
-                onClick={() => navigate('/women')}
-                className="bg-gray-300 text-gray-800 px-4 py-2 rounded hover:bg-gray-400"
-              >
-                Continue Shopping
-              </button>
-              <button
-                onClick={() => navigate('/checkout')}
-                className="bg-[#264653] text-white px-4 py-2 rounded hover:bg-[#1f3b3d]"
-              >
-                Proceed to Checkout
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+          </>
+        )}
+      </div>
     </div>
   );
 };

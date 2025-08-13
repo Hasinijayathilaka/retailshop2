@@ -1,67 +1,136 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { womenProducts } from "../data/product";
 
-
-const Women = () => {
+const WomenCategory = () => {
+  const [sort, setSort] = useState("popular");
   const navigate = useNavigate();
 
   const handleAddToCart = (product) => {
-    // Get existing cart items from localStorage
-    const cart = JSON.parse(localStorage.getItem('cart')) || [];
-    // Add the new product
-    cart.push(product);
-    // Save back to localStorage
-    localStorage.setItem('cart', JSON.stringify(cart));
-    // Go to cart page
-    navigate('/cart');
+    const cart = JSON.parse(localStorage.getItem("cart")) || [];
+    const existingIndex = cart.findIndex((item) => item.id === product.id);
+    if (existingIndex >= 0) {
+      cart[existingIndex].quantity = (cart[existingIndex].quantity || 1) + 1;
+    } else {
+      cart.push({ ...product, quantity: 1 }); // ✅ Fixed: Spread the single product, not the whole array
+    }
+    localStorage.setItem("cart", JSON.stringify(cart));
+    navigate("/Cart");
   };
 
   return (
     <div className="font-sans bg-white text-gray-800">
+      {/* Header */}
+      <header className="bg-white px-6 md:px-16 py-4 shadow-md flex justify-between items-center">
+        <div className="text-2xl font-bold text-[#e76f51]">🌟 RetailVibe</div>
+        <nav className="flex gap-4 items-center text-sm font-medium">
+          <Link to="/" className="hover:text-[#e76f51]">Home</Link>
+          <Link to="/shop" className="hover:text-[#e76f51]">Shop</Link>
+          <Link to="/deals" className="hover:text-[#e76f51]">Deals</Link>
+          <Link to="/contact" className="hover:text-[#e76f51]">Contact</Link>
+        </nav>
+      </header>
+
+      {/* Breadcrumb */}
+      <div className="px-6 md:px-16 py-4 text-sm text-gray-500">
+        <Link to="/" className="hover:text-[#e76f51]">Home</Link> &gt; Women
+      </div>
+
       {/* Banner */}
       <section
-        className="relative text-white text-center py-24 px-4 bg-cover bg-center"
-        style={{ backgroundImage: "url('/images/women-banner.jpg')" }}
+        className="relative text-white text-center py-20 px-4 bg-cover bg-center"
+        style={{ backgroundImage: "url('/women-banner.jpg')" }}
       >
-        <div className="absolute inset-0 bg-[#264653]/60 z-0" />
+        <div className="absolute inset-0 bg-[#264653]/60" />
         <div className="relative z-10">
-          <h1 className="text-4xl md:text-5xl font-bold mb-4">Women's Collection</h1>
-          <p className="mb-6 text-lg">Stylish. Affordable. Comfortable.</p>
+          <h1 className="text-4xl font-bold mb-2">Women’s Collection</h1>
+          <p className="text-lg">Fresh styles for every season</p>
         </div>
       </section>
 
-      {/* Product Grid */}
-      <section className="py-10 px-6 md:px-16 text-center">
-        <h2 className="text-3xl font-semibold text-[#264653] mb-10">
-          Shop Women's Fashion
-        </h2>
-        <div className="grid gap-8 sm:grid-cols-2 md:grid-cols-3">
-          {womenProducts.map((product) => (
-            <div
-              key={product.id}
-              className="bg-white border rounded-xl shadow hover:shadow-lg transition p-4 text-left"
-            >
-              <img
-                src={product.image}
-                alt={product.name}
-                className="w-full h-56 object-cover rounded mb-4"
-              />
-              <h3 className="text-lg font-semibold text-[#264653] mb-2">{product.name}</h3>
-              <p className="text-[#e76f51] font-medium mb-4">{product.price}</p>
+      {/* Filters */}
+      <div className="px-6 md:px-16 py-6 flex flex-wrap justify-between items-center border-b">
+        <div className="flex gap-4">
+          <select className="border px-3 py-2 rounded">
+            <option>All Sizes</option>
+            <option>S</option>
+            <option>M</option>
+            <option>L</option>
+            <option>XL</option>
+          </select>
+          <select className="border px-3 py-2 rounded">
+            <option>All Colors</option>
+            <option>Red</option>
+            <option>Blue</option>
+            <option>Green</option>
+          </select>
+        </div>
+        <div>
+          <select
+            value={sort}
+            onChange={(e) => setSort(e.target.value)}
+            className="border px-3 py-2 rounded"
+          >
+            <option value="popular">Sort by Popularity</option>
+            <option value="low">Price: Low to High</option>
+            <option value="high">Price: High to Low</option>
+          </select>
+        </div>
+      </div>
 
-              {/* Add to Cart Button */}
-              <button
-                onClick={() => handleAddToCart(product)}
-                className="bg-[#264653] text-white px-4 py-2 rounded-lg hover:bg-[#1f3b3d] transition w-full"
-              >
-                Add to Cart
-              </button>
+      {/* Products Grid */}
+      <div className="px-6 md:px-16 py-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        {womenProducts.map((product) => (
+          <div
+            key={product.id}
+            className="bg-white shadow rounded-lg overflow-hidden hover:shadow-md transition"
+          >
+            <img
+              src={product.image}
+              alt={product.name}
+              className="w-full h-64 object-cover"
+            />
+            <div className="p-4">
+              <h3 className="text-lg font-semibold">{product.name}</h3>
+              <div className="flex items-center gap-2 mt-2">
+                <span className="text-[#e76f51] font-bold">Rs.{product.price}</span>
+                <span className="line-through text-gray-400">Rs.{product.oldPrice}</span>
+              </div>
+              <p className="text-yellow-500">
+                {"★".repeat(Math.round(product.rating))}
+              </p>
+              <div className="mt-4 flex gap-2">
+                <button
+                  onClick={() => handleAddToCart(product)}
+                  className="bg-[#e76f51] text-white px-4 py-2 rounded hover:bg-[#d45d43]"
+                >
+                  Add to Cart
+                </button>
+                <Link
+                  to={`/product/${product.id}`}
+                  className="border border-[#e76f51] text-[#e76f51] px-4 py-2 rounded hover:bg-[#e76f51] hover:text-white"
+                >
+                  View
+                </Link>
+              </div>
             </div>
-          ))}
-        </div>
-      </section>
+          </div>
+        ))}
+      </div>
+
+      {/* Pagination */}
+      <div className="px-6 md:px-16 pb-10 flex justify-center gap-2">
+        <button className="px-4 py-2 border rounded hover:bg-gray-100">1</button>
+        <button className="px-4 py-2 border rounded hover:bg-gray-100">2</button>
+        <button className="px-4 py-2 border rounded hover:bg-gray-100">Next</button>
+      </div>
+
+      {/* Footer */}
+      <footer className="bg-[#264653] text-gray-300 text-center py-8 text-sm">
+        &copy; 2025 RetailVibe. Crafted for the colorful you.
+      </footer>
     </div>
   );
 };
 
-export default Women;
+export default WomenCategory;
