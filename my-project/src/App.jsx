@@ -11,6 +11,7 @@ import Accessories from './Pages/Accessories';
 import Sale from './Pages/Sale';
 import Cart from './Pages/Cart';
 import Checkout from './Pages/Checkout';
+import AdminDashboard from './Pages/AdminDashboard';
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
          
       </Routes>
       <Checkout/>
+      <AdminDashboard/>
     </Router>
   );
 }
