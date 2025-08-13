@@ -10,6 +10,7 @@ import Men from './Pages/Men';
 import Accessories from './Pages/Accessories';
 import Sale from './Pages/Sale';
 import Cart from './Pages/Cart';
+import Checkout from './Pages/Checkout';
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
          <Route path="/cart" element={<Cart/>}/>
          
       </Routes>
+      <Checkout/>
     </Router>
   );
 }
