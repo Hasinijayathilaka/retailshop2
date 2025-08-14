@@ -5,7 +5,9 @@ const HomePage = () => (
   <div className="font-sans bg-white text-gray-800">
     {/* Header */}
     <header className="bg-white px-6 md:px-16 py-4 shadow-md flex justify-between items-center">
-      <div className="text-2xl font-bold text-[#e76f51]">🌟 RetailVibe</div>
+     <Link to="/admin" className="text-2xl font-bold text-[#e76f51] flex items-center gap-1">
+  🌟 RetailVibe
+</Link>
       <nav className="flex flex-wrap gap-4 items-center text-sm font-medium">
         <Link to="/" className="hover:text-[#e76f51] transition">Home</Link>
         <Link to="/shop" className="hover:text-[#e76f51] transition">Shop</Link>

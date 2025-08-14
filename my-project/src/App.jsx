@@ -28,9 +28,9 @@ function App() {
          <Route path="/category/Sale" element={<Sale />}/>
          <Route path="/cart" element={<Cart/>}/>
          <Route path="/checkout" element={<Checkout />} />
+         <Route path="/admin" element={<AdminDashboard />} />
                  <Route path="/product/:id" element={<ProductView/>} />
       </Routes>
-      <AdminDashboard/>
     </Router>
   );
 }
