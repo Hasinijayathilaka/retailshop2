@@ -27,9 +27,9 @@ function App() {
          <Route path="/category/Accessories" element={<Accessories />}/>
          <Route path="/category/Sale" element={<Sale />}/>
          <Route path="/cart" element={<Cart/>}/>
+         <Route path="/checkout" element={<Checkout />} />
                  <Route path="/product/:id" element={<ProductView/>} />
       </Routes>
-      <Checkout/>
       <AdminDashboard/>
     </Router>
   );
