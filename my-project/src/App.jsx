@@ -13,6 +13,7 @@ import Cart from './Pages/Cart';
 import Checkout from './Pages/Checkout';
 import AdminDashboard from './Pages/AdminDashboard';
 import ProductView from './Pages/productView';
+import About from "./Pages/About";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignupPage />} />
+        <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} /> 
         <Route path="/category/women" element={<Women />}/>
         <Route path="/category/Men" element={<Men />}/>
@@ -31,6 +33,7 @@ function App() {
          <Route path="/admin" element={<AdminDashboard />} />
                  <Route path="/product/:id" element={<ProductView/>} />
       </Routes>
+
     </Router>
   );
 }

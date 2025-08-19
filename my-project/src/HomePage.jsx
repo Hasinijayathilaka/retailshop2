@@ -10,6 +10,7 @@ const HomePage = () => (
 </Link>
       <nav className="flex flex-wrap gap-4 items-center text-sm font-medium">
         <Link to="/" className="hover:text-[#e76f51] transition">Home</Link>
+        <Link to="/about" className="hover:text-[#e76f51] transition">About</Link> 
         <Link to="/shop" className="hover:text-[#e76f51] transition">Shop</Link>
         <Link to="/deals" className="hover:text-[#e76f51] transition">Deals</Link>
         <Link to="/contact" className="hover:text-[#e76f51] transition">Contact</Link>
