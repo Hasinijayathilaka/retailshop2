@@ -62,27 +62,23 @@ export default function AdminDashboard() {
   };
 
   return (
-    <div className="flex min-h-screen bg-black text-white">
+    <div className="flex min-h-screen bg-[#fdf6e3] text-gray-900">
       {/* Sidebar */}
       <div
         className={`
           fixed inset-y-0 left-0 z-50 w-64 transform
-          bg-gray-900 text-white shadow-lg
+          bg-[#fffaf0] text-gray-800 shadow-lg
           transition-transform duration-300 ease-in-out
-          ${
-            sidebarOpen
-              ? "translate-x-0"
-              : "-translate-x-full"
-          }
+          ${sidebarOpen ? "translate-x-0" : "-translate-x-full"}
           lg:translate-x-0 lg:static lg:shadow-none
         `}
       >
-        <div className="flex items-center justify-between p-4 border-b border-gray-700">
+        <div className="flex items-center justify-between p-4 border-b border-gray-300">
           <h2 className="text-2xl font-bold">Admin Panel</h2>
           {/* Close button on mobile */}
           <button
             onClick={() => setSidebarOpen(false)}
-            className="lg:hidden text-white text-2xl font-bold focus:outline-none"
+            className="lg:hidden text-gray-600 text-2xl font-bold focus:outline-none"
             aria-label="Close sidebar"
           >
             &times;
@@ -91,21 +87,21 @@ export default function AdminDashboard() {
         <nav className="p-4 space-y-3 text-lg">
           <a
             href="#orders"
-            className="block rounded px-3 py-2 hover:bg-gray-700"
+            className="block rounded px-3 py-2 hover:bg-[#fcefd2]"
             onClick={() => setSidebarOpen(false)}
           >
             Orders
           </a>
           <a
             href="#users"
-            className="block rounded px-3 py-2 hover:bg-gray-700"
+            className="block rounded px-3 py-2 hover:bg-[#fcefd2]"
             onClick={() => setSidebarOpen(false)}
           >
             Users
           </a>
           <a
             href="#products"
-            className="block rounded px-3 py-2 hover:bg-gray-700"
+            className="block rounded px-3 py-2 hover:bg-[#fcefd2]"
             onClick={() => setSidebarOpen(false)}
           >
             Products
@@ -116,7 +112,7 @@ export default function AdminDashboard() {
       {/* Overlay for mobile sidebar */}
       {sidebarOpen && (
         <div
-          className="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden"
+          className="fixed inset-0 bg-black bg-opacity-30 z-40 lg:hidden"
           onClick={() => setSidebarOpen(false)}
           aria-hidden="true"
         />
@@ -125,11 +121,11 @@ export default function AdminDashboard() {
       {/* Main Content */}
       <div className="flex-1 flex flex-col min-h-screen overflow-hidden">
         {/* Header */}
-        <header className="flex items-center justify-between bg-gray-900 px-4 py-3 shadow-md sticky top-0 z-30">
-          <h1 className="text-xl font-bold text">Admin Dashboard</h1>
+        <header className="flex items-center justify-between bg-[#fffaf0] px-4 py-3 shadow-md sticky top-0 z-30">
+          <h1 className="text-xl font-bold">Admin Dashboard</h1>
           {/* Mobile menu button */}
           <button
-            className="lg:hidden text-white text-2xl focus:outline-none"
+            className="lg:hidden text-gray-700 text-2xl focus:outline-none"
             onClick={() => setSidebarOpen(true)}
             aria-label="Open sidebar menu"
           >
@@ -142,9 +138,9 @@ export default function AdminDashboard() {
           {/* Orders Section */}
           <section id="orders" className="mb-10">
             <h2 className="text-2xl font-bold mb-4">Orders</h2>
-            <div className="overflow-x-auto bg-gray-800 shadow rounded-lg">
+            <div className="overflow-x-auto bg-white shadow rounded-lg">
               <table className="min-w-full text-left border-collapse">
-                <thead className="bg-gray-700">
+                <thead className="bg-[#fcefd2]">
                   <tr>
                     <th className="p-3 whitespace-nowrap">Customer</th>
                     <th className="p-3 whitespace-nowrap">Item</th>
@@ -154,20 +150,20 @@ export default function AdminDashboard() {
                 </thead>
                 <tbody>
                   {orders.map((order) => (
-                    <tr key={order.id} className="border-t border-gray-700">
+                    <tr key={order.id} className="border-t border-gray-300">
                       <td className="p-3 whitespace-nowrap">{order.customer}</td>
                       <td className="p-3 whitespace-nowrap">{order.item}</td>
                       <td className="p-3 whitespace-nowrap">{order.status}</td>
                       <td className="p-3 flex flex-wrap justify-center gap-2">
                         <button
                           onClick={() => updateOrder(order.id)}
-                          className="px-3 py-1 bg-yellow-600 text-white rounded hover:bg-yellow-600 min-w-[80px] hover:text-yellow-300 cursor-pointer"
+                          className="px-3 py-1 bg-yellow-500 text-white rounded hover:bg-yellow-600 min-w-[80px] cursor-pointer"
                         >
                           Update
                         </button>
                         <button
                           onClick={() => deleteOrder(order.id)}
-                          className="px-3 py-1 bg-red-600 text-white rounded hover:bg-red-700 min-w-[80px] hover:text-red-300 cursor-pointer"
+                          className="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600 min-w-[80px] cursor-pointer"
                         >
                           Delete
                         </button>
@@ -182,15 +178,15 @@ export default function AdminDashboard() {
           {/* Registered Users Section */}
           <section id="users" className="mb-10">
             <h2 className="text-2xl font-bold mb-4">Registered Users</h2>
-            <div className="bg-gray-800 p-4 rounded-lg">
+            <div className="bg-white p-4 rounded-lg shadow">
               {registeredUsers.length === 0 ? (
                 <p>No users registered yet.</p>
               ) : (
                 <ul className="space-y-2">
                   {registeredUsers.map((user, index) => (
-                    <li key={index} className="bg-gray-700 p-3 rounded break-words">
+                    <li key={index} className="bg-[#fdf6e3] p-3 rounded break-words">
                       <span className="font-semibold">{user.name}</span> —{" "}
-                      <span className="text-gray-300">{user.email}</span>
+                      <span className="text-gray-700">{user.email}</span>
                     </li>
                   ))}
                 </ul>
@@ -203,7 +199,7 @@ export default function AdminDashboard() {
             <h2 className="text-2xl font-bold mb-4">Manage Products</h2>
             <form
               onSubmit={addProduct}
-              className="bg-white text-black shadow rounded-lg p-6 max-w-md mb-6"
+              className="bg-white shadow rounded-lg p-6 max-w-md mb-6"
             >
               <div className="mb-4">
                 <label className="block font-semibold mb-1" htmlFor="productName">
@@ -239,15 +235,15 @@ export default function AdminDashboard() {
               </div>
               <button
                 type="submit"
-                className="w-full py-2 bg-[#e76f51] text-white rounded hover:bg-[#d45d43] hover:text-green-300 cursor-pointer"
+                className="w-full py-2 bg-blue-600 text-white rounded hover:bg-blue-700 cursor-pointer"
               >
                 Add Product
               </button>
             </form>
 
-            <div className="overflow-x-auto bg-gray-800 shadow rounded-lg">
+            <div className="overflow-x-auto bg-white shadow rounded-lg">
               <table className="min-w-full text-left border-collapse">
-                <thead className="bg-gray-700">
+                <thead className="bg-[#fcefd2]">
                   <tr>
                     <th className="p-3 whitespace-nowrap">Product</th>
                     <th className="p-3 whitespace-nowrap">Price ($)</th>
@@ -256,20 +252,20 @@ export default function AdminDashboard() {
                 </thead>
                 <tbody>
                   {products.map((product) => (
-                    <tr key={product.id} className="border-t border-gray-700">
+                    <tr key={product.id} className="border-t border-gray-300">
                       <td className="p-3 whitespace-nowrap">{product.name}</td>
                       <td className="p-3 whitespace-nowrap">{product.price}</td>
                       <td className="p-3 flex flex-wrap justify-center gap-2">
                         <button
                           onClick={() => updateProduct(product.id)}
-                          className="px-3 py-1 bg-yellow-600 text-white rounded hover:bg-yellow-600 min-w-[80px] hover:text-yellow-300 cursor-pointer"
+                          className="px-3 py-1 bg-yellow-500 text-white rounded hover:bg-yellow-600 min-w-[80px] cursor-pointer"
                         >
                           Update
                         </button>
 
                         <button
                           onClick={() => deleteProduct(product.id)}
-                          className="px-3 py-1 bg-red-600 text-white rounded hover:bg-red-700 min-w-[80px] hover:text-red-300 cursor-pointer"
+                          className="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600 min-w-[80px] cursor-pointer"
                         >
                           Delete
                         </button>
